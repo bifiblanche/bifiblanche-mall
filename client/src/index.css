@@ -1,0 +1,439 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── BIFI BLANCHE Design Tokens ─── */
+:root,
+[data-theme='light'] {
+  /* Core Brand Colors */
+  --color-sky: #b9d0e9;
+  --color-sky-light: #d4e5f3;
+  --color-sky-dark: #8fb3d6;
+  --color-cream: #ffffff;
+  --color-cream-dark: #f5f5f5;
+  --color-red: #e40b2c;
+  --color-yellow: #d5da2f;
+
+  /* Surfaces */
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-2: #f8f8f8;
+  --color-surface-sky: #eaf2f9;
+  --color-divider: #dde8f0;
+  --color-border: #ccdce9;
+
+  /* Text */
+  --color-text: #1a2530;
+  --color-text-muted: #5a7080;
+  --color-text-faint: #9ab0be;
+  --color-text-on-sky: #1a2530;
+  --color-text-inverse: #f4f5eb;
+
+  /* Primary = Sky Blue */
+  --color-primary: #b9d0e9;
+  --color-primary-hover: #8fb3d6;
+  --color-primary-active: #6b99c2;
+
+  /* Accents */
+  --color-accent-red: #e40b2c;
+  --color-accent-red-hover: #c2001f;
+  --color-accent-yellow: #d5da2f;
+  --color-accent-yellow-hover: #b8be12;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Type Scale */
+  --text-xs: clamp(0.72rem, 0.68rem + 0.2vw, 0.8rem);
+  --text-sm: clamp(0.85rem, 0.78rem + 0.3vw, 0.95rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --text-lg: clamp(1rem, 0.9rem + 0.45vw, 1.2rem);
+  --text-xl: clamp(1.1rem, 0.88rem + 0.7vw, 1.45rem);
+  --text-2xl: clamp(1.25rem, 0.75rem + 1.5vw, 2rem);
+  --text-3xl: clamp(1.5rem, 0.7rem + 2.5vw, 2.75rem);
+
+  /* Fonts */
+  --font-display: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+  --font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-interactive: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(26, 37, 48, 0.06);
+  --shadow-md: 0 4px 16px rgba(26, 37, 48, 0.08);
+  --shadow-lg: 0 12px 40px rgba(26, 37, 48, 0.12);
+
+  /* Content widths */
+  --content-narrow: 640px;
+  --content-default: 960px;
+  --content-wide: 1200px;
+
+  /* shadcn / Tailwind HSL mappings */
+  --background: 67 22% 93%;
+  --foreground: 210 23% 14%;
+  --card: 0 0% 100%;
+  --card-foreground: 210 23% 14%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 23% 14%;
+  --primary: 207 46% 82%;
+  --primary-foreground: 210 23% 14%;
+  --secondary: 67 22% 90%;
+  --secondary-foreground: 210 23% 14%;
+  --muted: 67 15% 88%;
+  --muted-foreground: 200 20% 44%;
+  --accent: 207 46% 88%;
+  --accent-foreground: 210 23% 14%;
+  --destructive: 350 95% 46%;
+  --destructive-foreground: 67 22% 93%;
+  --border: 207 38% 80%;
+  --input: 207 38% 80%;
+  --ring: 207 46% 72%;
+  --radius: 0.75rem;
+}
+
+/* 다크모드 비활성화 — 항상 라이트 테마 고정 */
+
+/* Hero PC/Mobile 표시 제어 */
+.hero-mobile { display: none; }
+.hero-pc { display: grid; }
+
+/* 배너 이미지 PC/모바일 분기 */
+.faceoil-img-mobile { display: none !important; }
+.faceoil-img-pc { display: block !important; }
+
+/* BEST SELLER 제품명 줄바꿈 — 모바일에서만 */
+.best-name-break { display: inline; }
+
+/* ─── Base Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--space-16);
+}
+
+body {
+  min-height: 100dvh;
+  line-height: 1.65;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+  line-height: 1.15;
+  font-family: var(--font-display);
+  font-style: normal;
+}
+
+em, i {
+  font-style: normal;
+}
+
+p, li, figcaption {
+  text-wrap: pretty;
+  max-width: 68ch;
+}
+
+::selection {
+  background: #b9d0e940;
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-sky-dark);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+a, button, [role='button'] {
+  transition: color var(--transition-interactive),
+    background var(--transition-interactive),
+    border-color var(--transition-interactive),
+    opacity var(--transition-interactive),
+    transform var(--transition-interactive);
+}
+
+button { cursor: pointer; background: none; border: none; }
+
+/* ─── Scroll fade-in utility ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Stagger delay helpers ─── */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* ─── Mobile Responsive Overrides ─── */
+@media (max-width: 768px) {
+
+  /* Nav 패딩 축소 */
+  header > div {
+    padding: 0 1.25rem !important;
+  }
+  /* Nav 링크 숨기기, 햄버거 표시 */
+  .nav-left {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  .nav-right {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  .nav-hamburger {
+    /* 모바일에서 햄버거를 nav-right 자리에 보이게 */
+    display: flex !important;
+    visibility: visible !important;
+  }
+  /* 모바일 로고 절대 중앙 고정 */
+  .nav-logo {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  /* Hero: PC 숨김, Mobile 표시 */
+  .hero-pc { display: none !important; }
+  .hero-mobile {
+    display: block !important;
+  }
+
+  /* Brand statement bar */
+  .brand-bar-inner {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+    padding: 1.25rem 1.25rem !important;
+  }
+
+  /* Brand numbers: 3 col → single col */
+  .brand-numbers-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .brand-numbers-grid .number-cell {
+    border-right: none !important;
+    border-bottom: 1px solid var(--color-border) !important;
+    padding: 2rem 1.5rem !important;
+  }
+  .brand-numbers-grid .number-cell:last-child {
+    border-bottom: none !important;
+  }
+
+  /* SynBi section: 2 col → stack */
+  .synbi-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  /* synbi 컬럼마 그리드 → 2열 */
+  .synbi-grid > div:last-child > div:first-child {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Philosophy header */
+  .philosophy-header {
+    padding: 3rem 1.5rem 1.5rem !important;
+  }
+
+  /* Philosophy 모바일: 세럼 이미지 숨기고 3원칙 단독 표시 */
+  .philosophy-split {
+    grid-template-columns: 1fr !important;
+  }
+  .philosophy-split .philo-img {
+    display: none !important;
+  }
+  .philosophy-split > div:last-child {
+    grid-template-rows: unset !important;
+  }
+  .philosophy-split > div:last-child > div {
+    padding: 2rem 1.75rem !important;
+    min-height: 140px !important;
+  }
+  .philo-text-stack {
+    grid-template-rows: unset !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .philosophy-split .philo-text-panel {
+    padding: 2rem 1.5rem !important;
+    min-height: unset !important;
+  }
+  .philosophy-split2 {
+    grid-template-columns: 1fr !important;
+  }
+  .philosophy-split2 .philo-text-panel {
+    padding: 2rem 1.5rem !important;
+    min-height: unset !important;
+  }
+  .philosophy-split2 .philo-img2 {
+    order: -1 !important;
+  }
+  .philosophy-split2 .philo-img2 img {
+    height: 240px !important;
+  }
+
+  /* Face oil section */
+  .faceoil-section {
+    height: 55vw !important;
+    min-height: 280px !important;
+  }
+  .faceoil-img-pc { display: none !important; }
+  .faceoil-img-mobile { display: block !important; }
+  .best-name-break { display: inline !important; }
+  .faceoil-slogan {
+    font-size: 0.82rem !important;
+    line-height: 1.9 !important;
+    padding: 0 1.5rem !important;
+  }
+
+  /* Product preview: 3열 유지 (PC와 동일하게 3열 가로) */
+  .product-preview-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  /* 3열일 때 텍스트 콘텐츠 충돌 잘림 */
+  .product-preview-grid p {
+    font-size: 0.65rem !important;
+    line-height: 1.4 !important;
+  }
+  .product-preview-grid img {
+    aspect-ratio: 1/1 !important;
+  }
+  .product-preview-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1.25rem !important;
+    margin-bottom: 2rem !important;
+  }
+  .product-preview-section {
+    padding: 3.5rem 0 !important;
+  }
+  .section-inner-pad {
+    padding: 0 1.5rem !important;
+  }
+
+  /* Shop: product grid */
+  .shop-product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--space-4) !important;
+  }
+  /* Shop: category filter */
+  .shop-filter-sticky {
+    top: 56px !important;
+  }
+  .shop-filter-inner {
+    padding: 0 1rem !important;
+  }
+  .shop-header-inner {
+    padding: 0 1.5rem !important;
+  }
+
+  /* Product modal: 2 col → stack */
+  .modal-inner {
+    grid-template-columns: 1fr !important;
+    max-height: 95vh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-self: flex-end !important;
+  }
+  .modal-img-panel {
+    position: relative !important;
+    max-height: 280px !important;
+    min-height: unset !important;
+  }
+  .modal-img-panel img {
+    min-height: unset !important;
+    max-height: 280px !important;
+    object-fit: cover !important;
+  }
+  .modal-detail-panel {
+    padding: var(--space-6) var(--space-5) !important;
+  }
+  .modal-wrapper {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+
+  /* Footer: 3 col → stack */
+  .footer-top-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    padding: 2.5rem 1.5rem 2rem !important;
+  }
+  .footer-wordmark {
+    font-size: clamp(3rem, 22vw, 6rem) !important;
+  }
+  .footer-bottom {
+    padding: 1rem 1.5rem 1.5rem !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+  .footer-divider {
+    padding: 0 1.5rem !important;
+  }
+}
+
+/* Slightly larger phones / small tablets */
+@media (max-width: 480px) {
+  .shop-product-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

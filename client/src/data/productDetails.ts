@@ -117,7 +117,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetail> = {
         description:
           "수분세럼과 동일한 장미 증류수 베이스. 세럼→크림으로 이어지는 루틴 전체에서 장미 폴리페놀 효능이 누적됩니다.",
         descriptionEn:
-          "The same rose distillate base as the Hydrating Serum. Rose polyphenol benefits accumulate throughout the serum-to-cream layering routine.",
+          "The same rose distillate base as the Moisture Serum. Rose polyphenol benefits accumulate throughout the serum-to-cream layering routine.",
       },
       {
         name: "4중 마이크로바이옴 발효 복합체",

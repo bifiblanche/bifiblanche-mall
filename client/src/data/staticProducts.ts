@@ -18,7 +18,7 @@ export interface StaticProduct {
 export const STATIC_PRODUCTS: StaticProduct[] = [
   {
     id: 1,
-    name: "Microbiome Serum",
+    name: "Moisture Serum",
     nameKo: "마이크로바이옴 수분세럼",
     category: "serum",
     price: 45000,
@@ -31,7 +31,7 @@ export const STATIC_PRODUCTS: StaticProduct[] = [
   },
   {
     id: 2,
-    name: "Microbiome Cream",
+    name: "Moisture Cream",
     nameKo: "마이크로바이옴 수분크림",
     category: "cream",
     price: 52000,

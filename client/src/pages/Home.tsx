@@ -331,7 +331,7 @@ export default function Home() {
           {/* 3-col product grid — gap 추가 */}
           <div className="product-preview-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
             {[
-              { img: serumBoxImg, productId: 1, volume: "40ml", name: KR ? "마이크로바이옴 수분세럼" : "Microbiome Hydrating Serum", desc: KR ? "4중 발효 복합체 · 미백·주름 이중 기능성 세럼" : "4-layer fermented complex · Dual-function brightening & anti-wrinkle" },
+              { img: serumBoxImg, productId: 1, volume: "40ml", name: KR ? "마이크로바이옴 수분세럼" : "Moisture Serum", desc: KR ? "4중 발효 복합체 · 미백·주름 이중 기능성 세럼" : "4-layer fermented complex · Dual-function brightening & anti-wrinkle" },
               { img: faceoilProductImg, productId: 5, volume: "40ml", name: KR ? "마이크로바이옴 스쿠알란 페이스오일" : "Microbiome Squalane Face Oil", desc: KR ? "식물성 스쿠알란 · 녹차씨 오일 · 피부 결 개선" : "Plant squalane · Green tea seed oil · Skin texture improvement" },
               { img: cleansingoilProductImg, productId: 4, volume: "130ml", name: KR ? "마이크로바이옴 클렌징오일" : "Microbiome Cleansing Oil", desc: KR ? "식물성 오일 베이스 · 가벼운 텍스처 · 워셔블" : "Plant oil base · Lightweight texture · Washable" },
             ].map((item, i) => (

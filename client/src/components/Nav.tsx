@@ -270,17 +270,18 @@ export default function Nav() {
             top: "56px",
             left: 0,
             right: 0,
-            background: isHome ? "transparent" : "rgba(185,208,233,0.50)",
-            backdropFilter: isHome ? "none" : "blur(8px)",
-            WebkitBackdropFilter: isHome ? "none" : "blur(8px)",
+            background: isTransparent ? "transparent" : "rgba(185,208,233,0.50)",
+            backdropFilter: isTransparent ? "none" : "blur(8px)",
+            WebkitBackdropFilter: isTransparent ? "none" : "blur(8px)",
             borderBottom: "none",
-            padding: "40px 40px 48px 40px",
             display: "flex",
             flexDirection: "column",
-            gap: "26px",
+            gap: "0",
           }}
           onClick={() => setMenuOpen(false)}
         >
+          <div style={{ height: "44px" }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: "28px", paddingLeft: "40px", paddingRight: "40px" }}>
           {[
             { href: "/#/shop", label: lang === "KR" ? "제품" : "Products" },
             { href: "https://bifiblanche.pplx.app/", label: lang === "KR" ? "성분가이드" : "Ingredients", external: true },
@@ -292,7 +293,7 @@ export default function Nav() {
               href={href}
               target={external ? "_blank" : undefined}
               rel={external ? "noopener noreferrer" : undefined}
-              style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: isHome ? "#ffffff" : "#1a2530", textDecoration: "none" }}
+              style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: isTransparent ? "#ffffff" : "#1a2530", textDecoration: "none" }}
             >
               {label}
             </a>
@@ -301,7 +302,7 @@ export default function Nav() {
             href="https://smartstore.naver.com/seasonglass"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: isHome ? "#ffffff" : "#1a2530", textDecoration: "none" }}
+            style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: isTransparent ? "#ffffff" : "#1a2530", textDecoration: "none" }}
           >
             {lang === "KR" ? "스토어" : "Store"}
           </a>
@@ -312,6 +313,8 @@ export default function Nav() {
           >
             {lang === "KR" ? "EN (English)" : "KR (한국어)"}
           </button>
+          </div>
+          <div style={{ height: "52px" }} />
         </div>
       )}
     </header>

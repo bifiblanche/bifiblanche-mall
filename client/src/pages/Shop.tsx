@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { STATIC_PRODUCTS, type StaticProduct as Product } from "@/data/staticProducts";
 import { PRODUCT_DETAILS } from "@/data/productDetails";
+import { REVIEWS, type Review } from "@/data/reviewData";
 import { LangContext } from "@/lib/langContext";
 import { getTracker } from "@/lib/tracker";
 import serumBoxImg from "@assets/serum-box.jpg";
@@ -47,6 +48,7 @@ const CATEGORIES_EN = [
 
 function ProductModal({ product, onClose }: { product: Product; onClose: () => void }) {
   const [tab, setTab] = useState<"desc" | "ingredients" | "review">("desc");
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const { lang } = useContext(LangContext);
   const KR = lang === "KR";
 
@@ -210,40 +212,139 @@ function ProductModal({ product, onClose }: { product: Product; onClose: () => v
             </div>
           )}
 
-          {tab === "review" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-5)", alignItems: "center", padding: "2rem 0" }}>
-              <p style={{ fontFamily: "var(--font-body)", fontSize: "var(--text-sm)", color: "var(--color-text-muted)", textAlign: "center", lineHeight: 1.8 }}>
-                {KR
-                  ? "네이버 스마트스토어에서 실제 구매 고객 리뷰를 확인하실 수 있습니다."
-                  : "Read verified customer reviews on Naver Smart Store."}
-              </p>
-              <a
-                href={(product as any).storeUrl || "https://smartstore.naver.com/seasonglass"}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none" }}
-                onClick={() => getTracker().trackStoreClick()}
-              >
-                <button style={{
-                  background: "#03C75A",
-                  color: "#fff",
-                  fontFamily: "var(--font-body)",
-                  fontSize: "var(--text-xs)",
-                  letterSpacing: "0.1em",
-                  fontWeight: 600,
-                  padding: "14px 32px",
-                  border: "none",
-                  cursor: "pointer",
-                  borderRadius: "2px",
-                }}>
-                  {KR ? "네이버 리뷰 보러가기 →" : "View Reviews on Naver →"}
-                </button>
-              </a>
-              <p style={{ fontFamily: "var(--font-body)", fontSize: "0.68rem", color: "var(--color-text-muted)", textAlign: "center" }}>
-                {KR ? "* 리뷰는 실제 구매 고객만 작성 가능합니다" : "* Reviews are written by verified purchasers only"}
-              </p>
-            </div>
-          )}
+          {tab === "review" && (() => {
+            const productReviews = REVIEWS[product.nameKo] || [];
+            const stars = (n: number) => "★".repeat(n) + "☆".repeat(5 - n);
+            return (
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                {/* 리뷰 이미지 그리드 */}
+                {productReviews.length > 0 ? (
+                  <>
+                    <div style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, 1fr)",
+                      gap: "6px",
+                    }}>
+                      {productReviews.filter(r => r.image).map(review => (
+                        <div
+                          key={review.id}
+                          onClick={() => setSelectedReview(review)}
+                          style={{
+                            aspectRatio: "1/1",
+                            overflow: "hidden",
+                            cursor: "pointer",
+                            background: "#f0f0f0",
+                            position: "relative",
+                          }}
+                        >
+                          <img
+                            src={review.image}
+                            alt="리뷰 이미지"
+                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.2s" }}
+                            onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
+                            onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    {/* 텍스트 전용 리뷰 */}
+                    {productReviews.filter(r => !r.image).map(review => (
+                      <div key={review.id} style={{ borderTop: "1px solid var(--color-border)", paddingTop: "1rem" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.4rem" }}>
+                          <span style={{ fontFamily: "var(--font-body)", fontSize: "0.78rem", fontWeight: 600, color: "var(--color-text)" }}>{review.nickname}</span>
+                          <span style={{ fontFamily: "var(--font-body)", fontSize: "0.72rem", color: "var(--color-text-muted)" }}>{review.date}</span>
+                        </div>
+                        <div style={{ color: "var(--color-accent-red)", fontSize: "0.85rem", marginBottom: "0.4rem", letterSpacing: "0.05em" }}>{stars(review.rating)}</div>
+                        <p style={{ fontFamily: "var(--font-body)", fontSize: "0.8rem", color: "var(--color-text)", lineHeight: 1.75 }}>{review.text}</p>
+                      </div>
+                    ))}
+                    {/* 네이버 더보기 링크 */}
+                    <a
+                      href={(product as any).storeUrl || "https://smartstore.naver.com/seasonglass"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none", textAlign: "center" }}
+                      onClick={() => getTracker().trackStoreClick()}
+                    >
+                      <div style={{
+                        display: "inline-block",
+                        fontFamily: "var(--font-body)",
+                        fontSize: "0.72rem",
+                        letterSpacing: "0.1em",
+                        color: "#03C75A",
+                        fontWeight: 600,
+                        padding: "10px 24px",
+                        border: "1px solid #03C75A",
+                        cursor: "pointer",
+                      }}>
+                        {KR ? "네이버 리뷰 더보기 →" : "More Reviews on Naver →"}
+                      </div>
+                    </a>
+                  </>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", alignItems: "center", padding: "2rem 0" }}>
+                    <p style={{ fontFamily: "var(--font-body)", fontSize: "var(--text-sm)", color: "var(--color-text-muted)", textAlign: "center", lineHeight: 1.8 }}>
+                      {KR ? "네이버 스마트스토어에서 실제 구매 고객 리뷰를 확인하실 수 있습니다." : "Read verified customer reviews on Naver Smart Store."}
+                    </p>
+                    <a
+                      href={(product as any).storeUrl || "https://smartstore.naver.com/seasonglass"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none" }}
+                      onClick={() => getTracker().trackStoreClick()}
+                    >
+                      <button style={{ background: "#03C75A", color: "#fff", fontFamily: "var(--font-body)", fontSize: "var(--text-xs)", letterSpacing: "0.1em", fontWeight: 600, padding: "14px 32px", border: "none", cursor: "pointer", borderRadius: "2px" }}>
+                        {KR ? "네이버 리뷰 보러가기 →" : "View Reviews on Naver →"}
+                      </button>
+                    </a>
+                  </div>
+                )}
+
+                {/* 리뷰 상세 모달 */}
+                {selectedReview && (
+                  <div
+                    onClick={() => setSelectedReview(null)}
+                    style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }}
+                  >
+                    <div
+                      onClick={e => e.stopPropagation()}
+                      style={{ background: "#fff", width: "100%", maxWidth: "440px", maxHeight: "90vh", overflowY: "auto", borderRadius: "4px", position: "relative" }}
+                    >
+                      {/* 닫기 버튼 */}
+                      <button
+                        onClick={() => setSelectedReview(null)}
+                        style={{ position: "absolute", top: "14px", right: "14px", background: "none", border: "none", fontSize: "1.2rem", cursor: "pointer", color: "#666", zIndex: 1, lineHeight: 1 }}
+                      >✕</button>
+                      {/* 상단 타이틀 */}
+                      <div style={{ padding: "18px 20px 14px", borderBottom: "1px solid #eee", fontFamily: "var(--font-body)", fontSize: "0.85rem", fontWeight: 600, color: "var(--color-text)" }}>
+                        {KR ? "리뷰 상세 보기" : "Review Detail"}
+                      </div>
+                      {/* 이미지 */}
+                      {selectedReview.image && (
+                        <img src={selectedReview.image} alt="리뷰" style={{ width: "100%", display: "block", maxHeight: "340px", objectFit: "cover" }} />
+                      )}
+                      {/* 리뷰 내용 */}
+                      <div style={{ padding: "18px 20px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+                          <span style={{ fontFamily: "var(--font-body)", fontSize: "0.82rem", fontWeight: 600, color: "var(--color-text)" }}>{selectedReview.nickname}</span>
+                          <span style={{ fontFamily: "var(--font-body)", fontSize: "0.74rem", color: "var(--color-text-muted)" }}>{selectedReview.date}</span>
+                        </div>
+                        <div style={{ color: "var(--color-accent-red)", fontSize: "0.9rem", marginBottom: "8px", letterSpacing: "0.05em" }}>{stars(selectedReview.rating)}</div>
+                        {selectedReview.skinType && (
+                          <div style={{ marginBottom: "10px" }}>
+                            <span style={{ fontFamily: "var(--font-body)", fontSize: "0.7rem", background: "var(--color-sky)", color: "var(--color-text)", padding: "3px 8px", borderRadius: "2px" }}>
+                              {KR ? `피부타입 ${selectedReview.skinType}` : selectedReview.skinType}
+                            </span>
+                          </div>
+                        )}
+                        <p style={{ fontFamily: "var(--font-body)", fontSize: "0.82rem", color: "var(--color-text)", lineHeight: 1.85 }}>{selectedReview.text}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {tab === "ingredients" && detail && (
             <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
